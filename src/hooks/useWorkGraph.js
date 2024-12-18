@@ -1,8 +1,13 @@
 import { ref } from "vue";
+import { MarkerType } from "@vue-flow/core";
 
 export function useWorkGraph() {
   const nodes = [];
   const edges = [];
+  const nodes_inNode = {};
+  const nodes_outNode = {};
+  const nodes_inEdge = {};
+  const nodes_outEdge = {};
 
   const workSet = new Set();
 
@@ -13,11 +18,11 @@ export function useWorkGraph() {
   }
 
   function WorkNode(id, work) {
-    return { id, position: { x: 0, y: 0 }, label: work, type: "default" };
+    return { id, position: { x: 0, y: 0 }, label: work, type: "pending" };
   }
 
   function WorkEdge(id, source, target) {
-    return { id, source, target };
+    return { id, source, target, animated: true, markerEnd: MarkerType.ArrowClosed };
   }
 
   function buildGraph(initEdges) {
